@@ -23,6 +23,10 @@ $ kubectl completion bash >/etc/bash_completion.d/kubectl
 ~~~~
 $ kubectl get pods -o wide 
 ~~~~
+* quantos deployments no cluster:
+~~~~
+$ kubectl get deployments.apps 
+~~~~
 * colocar taint num node (só pode ser colocado em nodes):
 ~~~~
 $ kubectl taint nodes <nome-node> key=value:effect

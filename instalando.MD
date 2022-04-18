@@ -26,8 +26,17 @@ $ kubectl get pods -o wide
 * colocar taint num node (só pode ser colocado em nodes):
 ~~~~
 $ kubectl taint nodes <nome-node> key=value:effect
+*ex: $ kubectl taint nodes node01 spray=mortein:NoSchedule
 ~~~~
-  ex:
+* como fazer upgrade na master:
+** na master faça (ir para master: ssh controlplane):
 ~~~~
-$ kubectl taint nodes node01 spray=mortein:NoSchedule
+$ apt update
+$ apt install kubeadm=1.20.0-00
+$ kubeadm upgrade apply v1.20.0
+
+$ apt install kubelet=1.20.0-00 
+
+* precisa restartar kubelet após instalado:
+$ systemctl restart kubelet
 ~~~~

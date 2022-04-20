@@ -45,7 +45,7 @@ $ apt install kubelet=1.20.0-00
 $ systemctl restart kubelet
 ~~~~
 
-* fornecer acesso a novo membro tedy somente aos nodes:
+* fornecer acesso a novo usuario tedy aos nodes:
 * * fazer <>.yaml, e então $ kubectl create -f <>.yaml:
 ~~~~
 ---
@@ -62,13 +62,43 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: michelle-binding
+  name: tedy-binding
 subjects:
 - kind: User
-  name: michelle
+  name: tedy
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
   name: node-admin
   apiGroup: rbac.authorization.k8s.io
 ~~~~
+
+* fornecer acesso a novo usuario tedy aos storages PV PVC :
+* * fazer <>.yaml, e então $ kubectl create -f <>.yaml:
+~~~~
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: storage-admin
+rules:
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["get", "watch", "list", "create", "delete"]
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
+  verbs: ["get", "watch", "list", "create", "delete"]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tedy-storage-admin
+subjects:
+- kind: User
+  name: tedy
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: storage-admin
+  apiGroup: rbac.authorization.k8s.io
+  ~~~~
